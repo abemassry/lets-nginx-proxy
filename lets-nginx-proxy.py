@@ -86,16 +86,24 @@ server {{
 }}
 '''
 nginx_config = nginx_config_raw.format(domain_name, port, ip_address)
-
 nginx_config_available = '/etc/nginx/sites-available/'+domain_name
 
-f = open(nginx_config_available, 'w')
-f.write(nginx_config)
-print('Writing nginx config')
-f.close()
+def write_nginx_config():
+  f = open(nginx_config_available, 'w')
+  f.write(nginx_config)
+  print('Writing nginx config')
+  f.close()
 
-os.symlink(nginx_config_available, '/etc/nginx/sites-enabled/'+domain_name)
-print('Adding symlink from sites-available to sites-enabled')
+  os.symlink(nginx_config_available, '/etc/nginx/sites-enabled/' + domain_name)
+  print('Adding symlink from sites-available to sites-enabled')
+
+if (os.path.isfile(nginx_config_available)):
+  answer = raw_input('nginx config for site exists, overwrite? [Y/n]')
+  if (answer.lower() == 'y'):
+    write_nginx_config()
+else:
+  write_nginx_config()
+
 
 # download let's encrypt
 print('Downloading lets encrypt')
