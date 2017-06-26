@@ -156,16 +156,16 @@ print('''
 
 #!/bin/bash
 systemctl stop nginx # or equivalent
-/opt/certbot-auto certonly --standalone -d {0}
+/opt/certbot-auto renew
 systemctl start nginx # or equivalent
 
   You could then save it to
 
-/opt/renew-{0}-cert.sh
+/opt/renew-certs.sh
 
   And then add this to your crontab
 
-{1} 0 1 * * /opt/renew-{0}-cert.sh
+{1} 0 1 * * /opt/renew-certs.sh
 
   With the command
 
